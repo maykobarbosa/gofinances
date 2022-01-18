@@ -4,7 +4,7 @@ import { Container } from "./styles";
 
 type Props = TextInputProps;
 
-export function Input(){
+export function Input({...rest}){
     return(
         <Container { ...rest} />
     )
