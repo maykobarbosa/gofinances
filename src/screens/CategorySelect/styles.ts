@@ -25,7 +25,7 @@ export const Title = styled.Text`
     font-size: ${RFValue(18)}px;
 `;
 
-export const Category = styled.View`
+export const Category = styled.TouchableOpacity`
     width: 100%;
     padding:  ${RFValue(15)}px;
 
@@ -53,13 +53,9 @@ export const Separator = styled.View`
 `;
 
 export const Footer = styled.View`
-    
+    width: 100%;
+    padding: 24px;
 `;
 
-export const Button = styled.View`
-        
-`;
 
-export const ButtonText = styled.Text`
-    
-`;
+
