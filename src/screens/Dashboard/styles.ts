@@ -5,6 +5,7 @@ import {RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
 import { DataListProps } from '.';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -62,6 +63,10 @@ export const Photo  = styled.Image`
   border-radius: 10px;
 `;
 
+export const LogoutButton = styled(BorderlessButton)`
+ 
+`;
+
 export const Icon = styled(Feather)`
    color: ${({theme}) => theme.colors.secundary};
    font-size: ${RFValue(24)}px;
@@ -101,5 +106,4 @@ export const TransitionList = styled(
     paddingBottom: getBottomSpace()
   }
 })`
-
 `;
