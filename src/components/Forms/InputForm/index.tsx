@@ -23,7 +23,7 @@ export function InputForm({
         render={({field: { onChange, value}}) => (
           <Input 
             onChangeText={onChange}
-            value={value}
+            value={value} 
             {...rest}
           />
         )}
