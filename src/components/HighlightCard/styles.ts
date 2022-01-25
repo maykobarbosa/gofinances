@@ -64,6 +64,6 @@ export const LastTransaction = styled.Text<TypeProps>`
   font-family: ${({theme}) => theme.fonts.regular};
   font-size: ${RFValue(12)}px;
 
-  margin-top:  -10px;
+  margin-top:  0px;
 `;
 
