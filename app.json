@@ -7,6 +7,13 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.maykobarbosa.gofinances"
+    },
+    "description": "",
+    "ios": {
+      "bundleIdentifier": "com.maykobarbosa.gofinances"
+    }
   }
 }
