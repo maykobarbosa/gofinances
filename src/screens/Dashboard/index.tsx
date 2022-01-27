@@ -24,6 +24,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 import { useTheme } from 'styled-components';
+import { useAuth } from "../../hooks/auth";
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -38,6 +39,8 @@ interface HighlightData {
   saldo: HighlightProps;
 }
 
+
+
 export function Dashboard(){
   const[isLoading, setIsloading] = useState(true)
   const [data, setData] = useState<DataListProps[]>([])
@@ -45,6 +48,11 @@ export function Dashboard(){
 
   const theme = useTheme()  
 
+  const {user, signOut, userStorageLoading} = useAuth()
+  
+  async function handleSignOut() {
+    signOut()
+  }
   function getLasTransactionDate(
     collection: DataListProps[],
     type: 'positive' | 'negative'
@@ -59,7 +67,7 @@ export function Dashboard(){
   }
 
   async function loadTransactions() {
-    const dataKey = '@gofinances:transactions'
+    const dataKey = `@gofinances:transactions_user:${user.id}`
     const response = await AsyncStorage.getItem(dataKey)
 
     const transactions = response ? JSON.parse(response) : []
@@ -147,7 +155,7 @@ export function Dashboard(){
   return(
     <Container>
       { 
-      isLoading ? 
+      isLoading && !userStorageLoading ? 
         <LoadContainer> 
           <ActivityIndicator 
             color={theme.colors.primary} 
@@ -159,13 +167,13 @@ export function Dashboard(){
         <Header>
           <UserWrapper>
             <UserInfo>
-              <Photo source={{uri: 'https://avatars.githubusercontent.com/u/67514858?v=4'}}/>  
+              <Photo source={{uri: user.photo}}/>  
               <User>
                 <UserGreeting>Olá, </UserGreeting>
-                <UserName>Mayko </UserName>
+                <UserName>{user.name} </UserName>
               </User>
             </UserInfo>
-            <LogoutButton onPress={() => {}}>
+            <LogoutButton onPress={handleSignOut}>
               <Icon name="power" />
             </LogoutButton>
           </UserWrapper>        

@@ -1,6 +1,7 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import * as AuthSession from 'expo-auth-session';
-
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { AsyncStorage } from "react-native";
 const {CLIENT_ID} = process.env
 const {REDIRECT_URI} = process.env
 
@@ -19,6 +20,9 @@ interface User {
 interface IAuthContextData {
   user: User;
   signInWithGoogle(): Promise<void>;
+  signInWithApple(): Promise<void>;
+  signOut(): Promise<void>;
+  userStorageLoading: boolean;
 }
 
 interface AuthorizationResponse {
@@ -32,7 +36,9 @@ export const AuthContext = createContext({} as IAuthContextData)
 
 function AuthProvider({children}: AuthProviderProps){
   const [user, setUser] = useState<User>({} as User)
+  const [userStorageLoading, setUserStorageLoading] = useState(true)
 
+  const userStorageKey = '@gofinances:user'
  
   async function signInWithGoogle(){
     try{
@@ -45,17 +51,19 @@ function AuthProvider({children}: AuthProviderProps){
       const {type, params} = await AuthSession
       .startAsync({authUrl}) as AuthorizationResponse
 
-      if(type === 'success') {
-        const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`)
-        const userInfo = await response.json()
-        console.log(userInfo)
+      const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`)
+      const result = await response.json()
 
-        setUser({
-          id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.given_name,
-          photo: userInfo.picture
-        })
+      if(type === 'success') {
+        const userLooged = {
+          id: result.id,
+          email: result.email,
+          name: result.given_name,
+          photo: result.picture
+        }
+
+        setUser(userLooged)
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLooged))
       }
       
 
@@ -64,8 +72,51 @@ function AuthProvider({children}: AuthProviderProps){
     }
   }
 
+  async function signInWithApple(){
+    try {
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ]
+      });
+
+      if(credential) {
+        const name = credential.fullName!.givenName!
+        const userLooged = {
+          id: String(credential.user),
+          email: credential.email!,
+          name,
+          photo: `https://ui-avatars.com/api/?name=${name}&length=1`
+        }
+
+        setUser(userLooged)
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLooged))
+      }
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  async function signOut(){
+    setUser({} as User)
+    await AsyncStorage.removeItem(userStorageKey)
+  }
+
+  useEffect(() => {
+    async function loadUserStorageData(){
+      const userStoraged = await AsyncStorage.getItem(userStorageKey)
+      if(userStoraged){
+        const userLooged = JSON.parse(userStoraged) as User
+        setUser(userLooged)
+      }
+      setUserStorageLoading(false)
+    }
+    loadUserStorageData()
+  },[])
+
   return(
-    <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple, signOut, userStorageLoading}}>
       {children}
     </AuthContext.Provider>
   )
