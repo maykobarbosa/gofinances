@@ -53,13 +53,19 @@ export function Dashboard(){
   async function handleSignOut() {
     signOut()
   }
-  function getLasTransactionDate(
+  function getLastTransactionDate(
     collection: DataListProps[],
     type: 'positive' | 'negative'
     ){
     //obter a data mais recente de entrada
-    const lastTransaction = new Date(Math.max.apply(Math, collection
-    .filter((transaction: DataListProps) => transaction.type === type)
+    const collectionFilttered = collection
+    .filter((transaction: DataListProps) => transaction.type === type)  
+
+    if(collectionFilttered.length === 0)  
+      return 0
+
+    const lastTransaction = new Date(
+    Math.max.apply(Math, collectionFilttered
     .map((transaction: DataListProps) => new Date(transaction.date).getTime())))
 
     return `${lastTransaction.getDate()} de ${lastTransaction
@@ -109,9 +115,9 @@ export function Dashboard(){
 
     
     
-    const lastTransactionEntries =  getLasTransactionDate(transactions, 'positive')
-    const lastTransactionExpensive =  getLasTransactionDate(transactions, 'negative')
-    const totalInterval = `01 a ${lastTransactionEntries}`
+    const lastTransactionEntries =  getLastTransactionDate(transactions, 'positive')
+    const lastTransactionExpensive =  getLastTransactionDate(transactions, 'negative')
+    const totalInterval = lastTransactionExpensive === 0 ? 'Não há transações' : `01 a ${lastTransactionExpensive}`
 
     const total = entriesTotal - expensiveTotal
     setHighlightData({
@@ -120,14 +126,14 @@ export function Dashboard(){
           style: 'currency',
           currency: 'BRL'
         }),
-        lastTransaction: `Última entrada dia ${lastTransactionEntries}`
+        lastTransaction: lastTransactionEntries === 0 ? 'Não há transações' : `Última entrada dia ${lastTransactionEntries}`
       },
       expensives: {
         total: expensiveTotal.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL'
         }),
-        lastTransaction: `Última saída dia ${lastTransactionExpensive}`
+        lastTransaction: lastTransactionExpensive === 0 ? 'Não há transações' : `Última saída dia ${lastTransactionExpensive}`
       },
       saldo: {
         total: total.toLocaleString('pt-BR', {
