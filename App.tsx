@@ -7,10 +7,10 @@ import {
   Poppins_400Regular,
   Poppins_500Medium,
   Poppins_700Bold
-}from '@expo-google-fonts/poppins'
+} from '@expo-google-fonts/poppins'
 
 import theme from './src/global/styles/theme'
-import {Routes} from './src/routes'
+import { Routes } from './src/routes'
 
 
 import { ActivityIndicator, StatusBar } from 'react-native';
@@ -26,10 +26,10 @@ export default function App() {
   });
 
 
- if(!fontsLoaded ){
+  if (!fontsLoaded) {
     return (
-      <ActivityIndicator 
-        color={theme.colors.primary} 
+      <ActivityIndicator
+        color={theme.colors.primary}
         size='large'
       />
     )
@@ -37,12 +37,12 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-    
-        <StatusBar barStyle="light-content" />
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>
-     
+
+      <StatusBar barStyle="light-content" />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+
     </ThemeProvider>
   );
 }

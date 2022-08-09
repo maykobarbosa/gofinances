@@ -1,14 +1,15 @@
-export default { 
+export default {
   colors: {
     primary: '#5636D3',
+    background: '#F8F8F8',
 
     secundary: '#FF872C',
     secundary_light: 'rgba(255, 135, 44, 0.3)',
 
-    success: '#12A454',
+    success: '#008F8B',
     success_light: 'rgba(18, 164, 84, 0.5)',
 
-    attention: '#e83f5b',
+    attention: '#F66962',
     attention_light: 'rgba(232, 63 , 91, 0.3)',
 
     shape: '#fff',
@@ -16,7 +17,6 @@ export default {
     text: '#969CB3',
     text_dark: '#000000',
 
-    background: '#F0F2F5',
   },
   fonts: {
     regular: 'Poppins_400Regular',

@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 
 import { Feather } from '@expo/vector-icons'
-import {RFPercentage, RFValue } from 'react-native-responsive-fontsize'
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
 import { DataListProps } from '.';
@@ -9,14 +9,14 @@ import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({theme}) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Header = styled.View`
   width: 100%;
   height: ${RFPercentage(42)}px;
 
-  background-color: ${({theme}) => theme.colors.primary };
+  background-color: ${({ theme }) => theme.colors.primary};
 
   justify-content: center;
   align-items: flex-start;
@@ -43,20 +43,20 @@ export const UserInfo = styled.View`
 `;
 
 export const UserGreeting = styled.Text`
-  color: ${({theme}) => theme.colors.shape};
+  color: ${({ theme }) => theme.colors.shape};
 
   font-size: ${RFValue(18)}px;
-  font-family: ${({theme})=> theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
 export const UserName = styled.Text`
-  color: ${({theme}) => theme.colors.shape};
+  color: ${({ theme }) => theme.colors.shape};
 
   font-size: ${RFValue(18)}px;
-  font-family: ${({theme})=> theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
-export const Photo  = styled.Image`
+export const Photo = styled.Image`
   width: ${RFValue(48)}px;
   height: ${RFValue(48)}px;
 
@@ -68,15 +68,15 @@ export const LogoutButton = styled(TouchableOpacity)`
 `;
 
 export const Icon = styled(Feather)`
-   color: ${({theme}) => theme.colors.secundary};
+   color: ${({ theme }) => theme.colors.secundary};
    font-size: ${RFValue(24)}px;
 
 `;
 
 export const HighlightCards = styled.ScrollView.attrs({
-  horizontal: true,  
+  horizontal: true,
   showsHorizontalScrollIndicator: false,
-  contentContainerStyle: {paddingHorizontal: 24}
+  contentContainerStyle: { paddingHorizontal: 24 }
 })`
   width: 100%;
   position: absolute;
@@ -93,16 +93,16 @@ export const Transitions = styled.View`
 
 export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
-  font-family: ${({theme})=> theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.regular};
 
   margin-bottom: 16px;
 `;
 
 export const TransitionList = styled(
-    FlatList as new () => FlatList<DataListProps>
-  ).attrs({
+  FlatList as new () => FlatList<DataListProps>
+).attrs({
   showsVerticalScrollIndicator: false,
-  contentContainerStyle:{
+  contentContainerStyle: {
     paddingBottom: getBottomSpace()
   }
 })`

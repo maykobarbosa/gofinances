@@ -9,7 +9,7 @@ import { SignInSocialButton } from "../../components/SignInSocialButton";
 import theme from "../../global/styles/theme";
 import { useAuth } from "../../hooks/auth";
 
-import { 
+import {
   Container,
   Header,
   TitleWrapper,
@@ -19,11 +19,11 @@ import {
   FooterWrapper
 } from "./styles";
 
-export function SignIn(){
-  const {signInWithGoogle, signInWithApple} = useAuth()
-  const[isLoading, setIsloading] = useState(false)
-  
- async function handleSignInWithGoogle() {
+export function SignIn() {
+  const { signInWithGoogle, signInWithApple } = useAuth()
+  const [isLoading, setIsloading] = useState(false)
+
+  async function handleSignInWithGoogle() {
     try {
       setIsloading(true)
       return await signInWithGoogle()
@@ -31,11 +31,11 @@ export function SignIn(){
       console.log(error)
       Alert.alert('Não foi possível conectar a conta Google')
       setIsloading(false)
-    } 
-    
-    
- }
- async function handleSignInWithApple() {
+    }
+
+
+  }
+  async function handleSignInWithApple() {
     try {
       setIsloading(true)
       return await signInWithApple()
@@ -44,14 +44,14 @@ export function SignIn(){
       Alert.alert('Não foi possível conectar a conta Apple')
       setIsloading(false)
     }
- }
+  }
 
 
-  return(
+  return (
     <Container>
       <Header>
         <TitleWrapper>
-          <LogoSvg 
+          <LogoSvg
             width={RFValue(120)}
             height={RFValue(68)}
           />
@@ -69,29 +69,29 @@ export function SignIn(){
 
       <Footer>
         <FooterWrapper>
-          <SignInSocialButton 
+          <SignInSocialButton
             title="Entrar com Google"
             svg={GoogleSvg}
             onPress={handleSignInWithGoogle}
           />
-          { 
-           // Platform.OS === 'ios' && 
-            <SignInSocialButton 
+          {
+            Platform.OS === 'ios' &&
+            <SignInSocialButton
               title="Entrar com Apple"
               svg={AppleSvg}
               onPress={handleSignInWithApple}
             />
           }
         </FooterWrapper>
-        { 
-      isLoading && 
-      
-          <ActivityIndicator 
-            color={theme.colors.primary} 
+        {
+          isLoading &&
+
+          <ActivityIndicator
+            color={theme.colors.primary}
             size='large'
-          /> }
+          />}
       </Footer>
-      
+
     </Container>
   )
 }
